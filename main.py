@@ -34,6 +34,35 @@ def upload(file_path, path_upload, token):
         print("Success")
 
 
+def stack_overflow():
+    """Request info from Stack Overflow"""
+
+    from datetime import date, timedelta
+    from pprint import pprint
+
+    page = 1
+    result = []
+    from_date = date.today() - timedelta(days=2)
+    url = 'https://api.stackexchange.com/2.3/questions'
+    params = {'fromdate': from_date,
+      'tagged': 'Python',
+      'site': 'stackoverflow',
+      'sort': 'activity',
+      'pagesize': 100,
+      'page': page
+     }
+    while page:
+        response = requests.get(url, params=params).json()
+        result.extend(response['items'])
+        if response["has_more"]:
+            page += 1
+            params['page'] = page
+        else:
+            page = False
+
+    pprint(result)
+
+
 def run():
     """Main function"""
     # Задача №1
@@ -43,14 +72,14 @@ def run():
     # -----------------------------------------------------------------------------
 
     # Задача №2
-    file_path = "files/avatar.jpeg"
-    path_upload = "/Netology/avatar.jpeg"
-    token = 'XXX'  # Здесь был токен
-    upload(file_path, path_upload, token)
+    # file_path = "files/avatar.jpeg"
+    # path_upload = "/Netology/avatar.jpeg"
+    # token = 'XXX'  # Здесь был токен
+    # upload(file_path, path_upload, token)
     # -----------------------------------------------------------------------------
 
     # Задача №3
-
+    # stack_overflow()
     # -----------------------------------------------------------------------------
 
 
